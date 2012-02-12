@@ -23,6 +23,7 @@ $subpage   = rex_request('subpage', 'string');
 $minorpage = rex_request('minorpage', 'string');
 $func      = rex_request('func'   , 'string');
 $id        = rex_request('id', 'int');
+$myroot    = $REX['INCLUDE_PATH'].'/addons/'.$mypage;
 
 
 // SETTINGS
@@ -35,7 +36,7 @@ $pagination = 15;
 /////////////////////////////////////////////////////////////////////////////////
 if($func=='batch-submit')
 {
-  $batch = rex_request('redirects','string','false'); 
+  $batch = rex_request('redirects','string','false');
   if($batch!='false')
   {
     $db = new rex_sql;
@@ -140,7 +141,7 @@ if($func == '' || $func=='batch-submit')
   $list->show();
 
   echo '</div>';
-  
+
 // BATCH SUBMIT FORM
 ////////////////////////////////////////////////////////////////////////////////
 echo '
@@ -181,15 +182,17 @@ echo '
   </div><!-- /rex-addon-output -->
 </div><!-- /rex-form -->
 ';
-  
-  
-  
+
+
+
 }
 
 // ADD/EDIT FORM
 ////////////////////////////////////////////////////////////////////////////////
 elseif($func == 'edit' || $func == 'add')
 {
+  require_once $myroot.'/classes/class.rexseo_core_extensions.inc.php';
+
   echo '<div class="rex-addon-output">';
 
   if($func == 'edit')
@@ -202,7 +205,7 @@ elseif($func == 'edit' || $func == 'add')
   }
 
 
-  $form = new rex_form($table,'Redirect','id='.$id,'post',false);
+  $form = new rexseo_rex_form($table,'Redirect','id='.$id,'post',false);
 
   $field =& $form->addSelectField('status');
   $field->setLabel('Status');
@@ -214,7 +217,8 @@ elseif($func == 'edit' || $func == 'add')
   $field = &$form->addTextField('from_url');
   $field->setLabel('alte URL');
 
-  $field = &$form->addLinkmapField('to_article_id');
+  //$field = &$form->addLinkmapField('to_article_id');
+  $field = &$form->addMultilangLinkmapField('to_article_id');
   $field->setLabel('umleiten nach');
 
 
@@ -236,7 +240,7 @@ elseif($func == 'edit' || $func == 'add')
   {
     $field = &$form->addReadOnlyField('createdate',null,array('class'=>'rex-form-read unix-date'));
     $field->setLabel('Erstellungsdatum');
-  
+
     $field = &$form->addReadOnlyField('updatedate',null,array('class'=>'rex-form-read unix-date'));
     $field->setLabel('Änderungsdatum');
   }
@@ -251,7 +255,7 @@ elseif($func == 'edit' || $func == 'add')
     $field = &$form->addReadOnlyField('creator');
     $field->setLabel('Ersteller');
   }
-   
+
 
   if($func == 'edit')
   {
@@ -268,48 +272,16 @@ elseif($func == 'edit' || $func == 'add')
 
   $form->show();
 
-  echo '</div>
-
-<div id="clang-hack" clang="" article_id="" style="/*display:none*/">
-<p id="clang-link-buttons" class="rex-widget-icons rex-widget-1col">
-  <span class="rex-widget-column rex-widget-column-first">
-  <span style="float:left;margin-top:3px;">clang:</span>
-  ';
-
-foreach($REX['CLANG'] as $id=>$name)
-{
-  $add_css = $stored_clang==$id ? ' current':'';
-  echo '  <a tabindex="35" title="Link auswählen" clang="'.$id.'" onclick="openLinkMap(\'LINK_1\', \'&amp;clang='.$id.'&amp;category_id=0\');return false;" class="rex-icon-file-open open-clang-linkmap'.$add_css.'" href="#">'.$id.'</a>
-';
+  echo '</div>';
 }
 
-echo '
-  <a tabindex="36" title="Ausgewählten Link löschen" onclick="deleteREXLink(1);return false;" class="rex-icon-file-delete" href="#"></a>
-  </span>
-  </p>
-</div>
-';
-}
 ?>
-
 <script type="text/javascript">
 <!--
 jQuery(function($) {
 
 
   jQuery(document).ready(function() {
-  
-    // MULTILANG LINK BUTTON HACK
-    $('p.rex-widget-icons').replaceWith($('p#clang-link-buttons'));
-
-    $('#clang-hack').attr('article_id',$('#LINK_1').val());
-    $('#clang-hack').attr('clang',$('#rex_rexseo_redirects_Redirect_to_clang').val());
-
-    $(document).focus(function(){
-      if($('#LINK_1').val() != $('#clang-hack').attr('article_id')){
-        $('#rex_rexseo_redirects_Redirect_to_clang').val($('#clang-hack').attr('clang'));
-      }
-    });
 
     // UNIX TIMESTRING TO HUMAN DATE
     $("span.rex-form-read.unix-date").each(function() {
@@ -326,12 +298,6 @@ jQuery(function($) {
     $(".unix-date-picker").append('<input type="text" style="width:100px" id="formated-date" value="'+d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear()+'" /> (D.M.YYYY)');
 
   }); //jQuery(document).ready(function()
-
-
-  // SWITCH CSS STYLE FOR CHOSEN LANG IN WIDGET
-  $('.open-clang-linkmap').click(function(){
-    $('#clang-hack').attr('clang',$(this).attr('clang'));
-  });
 
 
   // UPDATE HIDDEN INPUT ON USER CHANGE OF EXPIRE DATE
