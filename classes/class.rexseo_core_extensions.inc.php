@@ -1,12 +1,24 @@
 <?php
+/**
+ * RexSEO Addon
+ *
+ * @link http://gn2-code.de/projects/rexseo/
+ * @link https://github.com/gn2netwerk/rexseo
+ *
+ * @author dh[at]gn2-netwerk[dot]de Dave Holloway
+ * @author code[at]rexdev[dot]de jeandeluxe
+ *
+ * Based on url_rewrite Addon by
+ * @author markus.staab[at]redaxo[dot]de Markus Staab
+ *
+ * @package redaxo4.2.x/4.3.x
+ * @version 1.4
+ * @version svn:$Id$
+ */
 
 class rex_var_link_exender extends rex_var_link
 {
-
-  /**
-   * Gibt das Multilang Button Template zurück
-   */
-  /*public static*/ function getMultilangLinkButton($id, $article_id, $category = '')
+  function getMultilangLinkButton($id, $article_id, $category = '')
   {
     global $REX, $I18N;
 
@@ -66,7 +78,6 @@ class rex_var_link_exender extends rex_var_link
 } // end class
 
 
-
 class rex_form_widget_multilanglinkmap_element extends rex_form_element
 {
   var $category_id = 0;
@@ -95,6 +106,7 @@ class rex_form_widget_multilanglinkmap_element extends rex_form_element
   }
 } // end class
 
+
 class rexseo_rex_form extends rex_form
 {
   /**
@@ -107,4 +119,4 @@ class rexseo_rex_form extends rex_form
     $field =& $this->addField('', $name, $value, $attributes, true);
     return $field;
   }
-}
+} // end class
