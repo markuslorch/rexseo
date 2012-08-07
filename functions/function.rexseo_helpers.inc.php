@@ -415,13 +415,14 @@ function rexseo_setup_metainfo()
 
   $install_metas = array(
     'art_rexseo_legend'         => array('RexSEO Rewrite',              'art_rexseo_legend',        100,    '',         12,     '',       '',                                                                                                     '',               ''),
-    'art_rexseo_url'            => array('Custom URL',                  'art_rexseo_url',           101,    '',          1,     '',       '',                                                                                                     '',               ''),
-    'art_rexseo_canonicalurl'   => array('Custom Canonical URL',        'art_rexseo_canonicalurl',  102,    '',          1,     '',       '',                                                                                                     '',               ''),
-    'art_rexseo_title'          => array('Custom Page Title',           'art_rexseo_title',         103,    '',          1,     '',       '',                                                                                                     '',               ''),
-    'art_rexseo_sitemap_legend' => array('RexSEO Sitemap',              'art_rexseo_sitemap_legend',104,    '',         12,     '',       '',                                                                                                     '',               ''),
-    'art_rexseo_priority'       => array('Sitemap Priority',            'art_rexseo_priority',      105,    '',          3,     '',       ':auto|1.00:1.00|0.80:0.80|0.64:0.64|0.51:0.51|0.33:0.33|0.00:0.00',                                    '',               ''),
-    'art_rexseo_changefreq'     => array('Sitemap Changefreq',          'art_rexseo_changefreq',    105,    '',          3,     '',       ':auto|never:never|yearly:yearly|monthly:monthly|weekly:weekly|daily:daily|hourly:hourly|always:always','',               ''),
-    'art_rexseo_sitemap_out'    => array('Sitemap Output',              'art_rexseo_sitemap_out',   106,    '',          3,     '',       ':auto|show:show|hide:hide',                                                                            '',               ''),
+    'art_rexseo_base'           => array('Custom Base',                 'art_rexseo_base',          101,    '',          1,     '',       '',                                                                                                     '',               ''),
+    'art_rexseo_url'            => array('Custom URL',                  'art_rexseo_url',           102,    '',          1,     '',       '',                                                                                                     '',               ''),
+    'art_rexseo_canonicalurl'   => array('Custom Canonical URL',        'art_rexseo_canonicalurl',  103,    '',          1,     '',       '',                                                                                                     '',               ''),
+    'art_rexseo_title'          => array('Custom Page Title',           'art_rexseo_title',         104,    '',          1,     '',       '',                                                                                                     '',               ''),
+    'art_rexseo_sitemap_legend' => array('RexSEO Sitemap',              'art_rexseo_sitemap_legend',105,    '',         12,     '',       '',                                                                                                     '',               ''),
+    'art_rexseo_priority'       => array('Sitemap Priority',            'art_rexseo_priority',      106,    '',          3,     '',       ':auto|1.00:1.00|0.80:0.80|0.64:0.64|0.51:0.51|0.33:0.33|0.00:0.00',                                    '',               ''),
+    'art_rexseo_changefreq'     => array('Sitemap Changefreq',          'art_rexseo_changefreq',    107,    '',          3,     '',       ':auto|never:never|yearly:yearly|monthly:monthly|weekly:weekly|daily:daily|hourly:hourly|always:always','',               ''),
+    'art_rexseo_sitemap_out'    => array('Sitemap Output',              'art_rexseo_sitemap_out',   108,    '',          3,     '',       ':auto|show:show|hide:hide',                                                                            '',               ''),
     );
 
   $db = new rex_sql;
