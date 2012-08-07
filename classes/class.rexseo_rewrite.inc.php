@@ -499,13 +499,13 @@ function rexseo_generate_pathlist($params)
     $db->setQuery('UPDATE '. $REX['TABLE_PREFIX'] .'article SET revision = 0 WHERE revision IS NULL;');
     $db->setQuery('UPDATE '. $REX['TABLE_PREFIX'] .'article_slice SET revision = 0 WHERE revision IS NULL;');
 
-    $db->setQuery('SELECT `id`, `clang`, `path`, `startpage`,`art_rexseo_url` FROM '. $REX['TABLE_PREFIX'] .'article WHERE '. $where.' AND revision=0 OR revision IS NULL');
+    $db->setQuery('SELECT `id`, `clang`, `path`, `startpage`,`art_rexseo_url`,`art_rexseo_base` FROM '. $REX['TABLE_PREFIX'] .'article WHERE '. $where.' AND revision=0 OR revision IS NULL');
 
     // CHECK & REPAIR DORKED METAINFO
     if($db->hasError() && $db->getErrno()==1054)
     {
       rexseo_setup_metainfo();
-      $db->setQuery('SELECT `id`, `clang`, `path`, `startpage`,`art_rexseo_url` FROM '. $REX['TABLE_PREFIX'] .'article WHERE '. $where.' AND revision=0 OR revision IS NULL');
+      $db->setQuery('SELECT `id`, `clang`, `path`, `startpage`,`art_rexseo_url`,`art_rexseo_base` FROM '. $REX['TABLE_PREFIX'] .'article WHERE '. $where.' AND revision=0 OR revision IS NULL');
     }
 
     while($db->hasNext())
@@ -515,6 +515,7 @@ function rexseo_generate_pathlist($params)
       $clang      = $db->getValue('clang');
       $path       = $db->getValue('path');
       $rexseo_url = $db->getValue('art_rexseo_url');
+      $base       = $db->getValue('art_rexseo_base');
 
       // FALLS REXSEO URL -> ERSETZEN
       if ($rexseo_url != '')
@@ -601,8 +602,8 @@ function rexseo_generate_pathlist($params)
       if(isset($REXSEO_IDS[$id][$clang]['url']) && isset($REXSEO_URLS[$REXSEO_IDS[$id][$clang]['url']]))
         unset($REXSEO_URLS[$REXSEO_IDS[$id][$clang]['url']]);
 
-      $REXSEO_IDS[$id][$clang] = array('url' => $pathname);
-      $REXSEO_URLS[$pathname]  = array('id'  => (int) $id, 'clang' => (int) $clang);
+      $REXSEO_IDS[$id][$clang] = array('url' => $base.$pathname);
+      $REXSEO_URLS[$base.$pathname]  = array('id'  => (int) $id, 'clang' => (int) $clang);
 
       $db->next();
     }
